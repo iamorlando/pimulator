@@ -1,0 +1,10 @@
+VENV := .venv
+PY   := $(VENV)/bin/python
+.PHONY: watch release test
+watch:
+	cargo install cargo-watch && cargo watch -C . -w rust/src -w Cargo.toml --ignore target -s "$(PY) -m maturin develop"
+release:
+	$(PY) -m maturin build --release --out ./dist
+
+test:
+	$(PY) -c "import pimulator; print(pimulator.sum_as_string(1,2))"

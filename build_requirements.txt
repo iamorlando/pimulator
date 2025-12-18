@@ -1,0 +1,2 @@
+# needed to for packaging and building rust extensions
+maturin==1.10.2
