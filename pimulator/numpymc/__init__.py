@@ -109,7 +109,7 @@ def run_mc_animation(
     mask = _quarter_inside_mask(pts)
     cum_inside = np.cumsum(mask)
 
-    fig, ax = plt.subplots(figsize=(5.5, 5.5))
+    fig, ax = plt.subplots(figsize=(3, 3))
     scat = ax.scatter([], [], s=3, alpha=0.8)
 
     ax.set_xlim(-1.05, 1.05)
@@ -153,9 +153,7 @@ def run_mc_animation(
         )
         scat.set_offsets(full_pts)
 
-        ax.set_title(
-            f"Monte Carlo filling the unit circle (Pi={pi_hat:.4f} quarter-points)"
-        )
+        ax.set_title(f"Pi={pi_hat:.4f}")
 
         # text.set_text(
         #     f"pi_hat   = {pi_hat:.8f}\n"
@@ -189,11 +187,12 @@ def run_mc_animation(
     #         n_points, pi_hat_final, se_final, ci_lo_final, ci_hi_final
     #     )
     # )
-    plt.close(fig)
-    plt.close(fig)
+    # plt.close(fig)
+    # plt.close(fig)
     try:
         from IPython.display import HTML
     except ImportError:
         return anim
 
-    return HTML(anim.to_jshtml(default_mode="loop"))
+    # return HTML(anim.to_jshtml(default_mode="loop"))
+    return anim
