@@ -1,7 +1,5 @@
 # Write and Call Rust from Python
-Sometimes Python just won't cut it. Suppose you need to run a simulation for example, in Python you are limited to a single thread, plus the interpreter carries overhead that becomes noticeable when calling even very simple code thousands or millions of times.
-
-In these situations NumPy or other high-performing computational libraries work well. They achieve their performance by delegating low level looping to C. But sometimes the APIs exposed by these libraries isn't enough to accommodate some per-path operation you might need to do. In situations like these you can write the inner loop easily with Rust and then include that functionality as part of your broader Python library. Doing this requires a small amount of configuration that, although simple, might not be easy to get right the first time.
+We often do calculations in Python that depend on systems-language level performance. Think Numpy arrays. These calculations pipe down to C binaries and then surface back up to python. Rust, C++, C, are all good languages to implement machine-code level looping and easily call from python. For a variaty of reasons Rust is my go-to when the situation allows. Wiring up a rust code-base to python and then packaging and including the rust binaries with your distribution is not difficult at all, but I thought a tutorial here might be helpful, as it can be just a bit finicky. 
 
 Because I am a Python developer, Rust is usually something I layer onto my project, so that is how I will present this. Let's start with an existing Python project. The minimal pyproject.toml looks like this:
 
@@ -12,7 +10,8 @@ version = "0.1.0"
 requires-python = ">=3.14"
 ```
 
-You can access the pimulator GitHub repo to see the fully built out example for a minimal Python/Rust mixed project. For now let's continue with our barebones, Python only, example. If you don't use `pyproject.toml`, you will need to add it to the root of your project.
+> [!NOTE] 
+> You can access the [pimulator GitHub repo](https://github.com/iamorlando/pimulator) to see the fully built out example for a minimal Python/Rust mixed project. I built Pimulator specifically to show how one wires up Rust into Python. The project simulates Pi by naiviely sampling a circle with pseudo-random numbers. It implements this approach in rust and in python and lets you compare the performance aspects of this. You can see how the results of such comparison in [this notebook](https://github.com/iamorlando/pimulator/blob/main/notebooks/comparisons.ipynb). For now let's continue with our barebones, Python only, example. If you don't use `pyproject.toml`, you will need to add it to the root of your project.
 
 ## Maturin
 Maturin is a Python module that builds your Rust code and binds it to your Python. It builds your Rust into a binary. If you plan on publishing your Python via wheels rather than sharing your source, then Maturin will bind the Rust binary into the wheel.
