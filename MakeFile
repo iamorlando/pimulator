@@ -2,7 +2,7 @@ VENV := .venv
 PY   := $(VENV)/bin/python
 .PHONY: watch release test
 watch:
-	cargo install cargo-watch && cargo watch -C . -w rust/src -w Cargo.toml --ignore target -s "$(PY) -m maturin develop"
+	cargo install cargo-watch && cargo watch -C . -w rust/src -w Cargo.toml --ignore target -s "$(PY) -m maturin develop --release"
 release:
 	$(PY) -m maturin build --release --out ./dist
 
